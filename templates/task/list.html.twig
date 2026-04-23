@@ -1,0 +1,7 @@
+<h1>Task List</h1>
+
+<ul>
+    {% for task in tasks %}
+        <li>{{ task.taskname }}: {{task.description}} - {{ task.dateCompleted ? 'Done' : 'Pending' }}</li>
+    {% endfor %}
+</ul>

@@ -2,7 +2,17 @@
 #    path: /
 #    controller: App\Controller\DefaultController::index
 
-
+#Home
 app_home:
     path: /home
     controller: App\Controller\HomeController::index
+
+
+#Tasks
+task_home:
+    path: /tasks
+    controller: App\Controller\TaskController::index
+
+task_list:
+      path: /getTasks
+      controller: App\Controller\TaskController::getTasks
