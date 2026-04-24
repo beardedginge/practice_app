@@ -20,3 +20,8 @@ task_list:
 task_add:
     path: /addTasks
     controller: App\Controller\TaskController::addTasks
+
+#PracticeCode
+practice_home:
+    path: /practice
+    controller: App\Controller\PracticeCodeController::index

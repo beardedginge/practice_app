@@ -9,12 +9,18 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <h3>Practice Code</h3>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/practice_app/src/Controller/PracticeCodeController.php'|file_link(0) }}">src/Controller/PracticeCodeController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/practice_app/templates/practice_code/index.html.twig'|file_link(0) }}">templates/practice_code/index.html.twig</a></code></li>
-    </ul>
+    <h4 style="margin-bottom: 5px;">Ransom Note</h4>
+    {{ ransom == 1 ? "true" : "false" }} 
+
+    <h4 style="margin-bottom: 5px;">Max Profit</h4>
+    {{ maxProfit }} 
+
+    <h4 style="margin-bottom: 5px;">Max Difference</h4>
+    {{ maxDiff }} 
+
+    <h4 style="margin-bottom: 5px;">Remove Duplicates</h4>
+    {{ removeDuplicates }} 
 </div>
 {% endblock %}
