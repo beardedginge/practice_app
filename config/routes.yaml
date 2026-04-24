@@ -14,5 +14,9 @@ task_home:
     controller: App\Controller\TaskController::index
 
 task_list:
-      path: /getTasks
-      controller: App\Controller\TaskController::getTasks
+    path: /getTasks
+    controller: App\Controller\TaskController::getTasks
+
+task_add:
+    path: /addTasks
+    controller: App\Controller\TaskController::addTasks

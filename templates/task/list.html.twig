@@ -1,3 +1,6 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
 <h1>Task List</h1>
 
 <ul>
@@ -5,3 +8,4 @@
         <li>{{ task.taskname }}: {{task.description}} - {{ task.dateCompleted ? 'Done' : 'Pending' }}</li>
     {% endfor %}
 </ul>
+{% endblock %}
