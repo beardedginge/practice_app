@@ -154,18 +154,12 @@ class PracticeCodeService{
                     ];
                 }
 
-                // Traverse ALL child arrays within the current node
-                // This makes the function generic
+                // Traverse ALL child arrays within the current node 
                 foreach ($node as $value) {
 
                     // If a value is itself an array, it could be nested nodes
                     if (is_array($value)) {
-
-                        // Recursive call:
-                        // - move deeper into the structure
-                        // - increment depth
-                        // - pass result by reference to accumulate results
-                        $this->TreeTraversal($value, $depth + 1, $result);
+                         $this->TreeTraversal($value, $depth + 1, $result);
                     }
                 }
             }
