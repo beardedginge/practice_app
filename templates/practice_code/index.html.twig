@@ -56,5 +56,23 @@
         </li>
         {% endfor %}
     </ul>
+
+    <h4 style="margin-bottom: 5px;">ApiResponse</h4>    
+    {# <ul>
+        {% for user_id, name in apiResponse %}
+        <li>
+            {{ user_id }} => {{name}}
+        </li>
+        {% endfor %}
+    </ul> #}
+
+    <h4 style="margin-bottom: 5px;">ApiResponse2</h4>    
+    <ul>
+        {% for id, user in apiResponse %}
+            <li>
+                {{ user.full_name }} - {{ user.total_spent }}
+            </li>
+        {% endfor %}
+    </ul>
 </div>
 {% endblock %}

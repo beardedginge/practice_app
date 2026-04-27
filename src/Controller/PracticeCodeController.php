@@ -97,7 +97,53 @@ class PracticeCodeController extends AbstractController
             ]
         ];
 
+        // $apiResponse = [
+        //     "data" => [
+        //         [
+        //             "user_id" => 1,
+        //             "first_name" => "Alice",
+        //             "last_name" => "Brown",
+        //             "orders" => 3
+        //         ],
+        //         [
+        //             "user_id" => 2,
+        //             "first_name" => "Bob",
+        //             "last_name" => "Smith",
+        //             "orders" => 1
+        //         ]
+        //     ]
+        // ];
+
+        $apiResponse = [
+            "users" => [
+                [
+                    "id" => 1,
+                    "first_name" => "Alice",
+                    "last_name" => "Brown",
+                    "orders" => [
+                        ["amount" => 100],
+                        ["amount" => 200]
+                    ]
+                ],
+                [
+                    "id" => 2,
+                    "first_name" => "Bob",
+                    "last_name" => "Smith",
+                    "orders" => [
+                        ["amount" => 50]
+                    ]
+                ],
+                [
+                    "id" => 3,
+                    "first_name" => "Charlie",
+                    "last_name" => "Jones",
+                    "orders" => []
+                ]
+            ]
+        ];
+
         $treeTraversal = $practiceCode->TreeTraversal($tree); 
+        // dd($practiceCode->APIChallenge2($apiResponse));
         return $this->render('practice_code/index.html.twig', [
             'controller_name' => 'PracticeCodeController',
             'ransom' => $ransom,
@@ -108,7 +154,8 @@ class PracticeCodeController extends AbstractController
             'palindromeNum' => $palindromeNumber,
             //'treeArray' => ''//implode(',',$treeTraversal),
             'treeArray' => $treeTraversal,
-            'orders' => $practiceCode->TotalByCustomerArray($orders)            
+            'orders' => $practiceCode->TotalByCustomerArray($orders),
+            'apiResponse' => $practiceCode->APIChallenge2($apiResponse)
         ]);
     }
 }

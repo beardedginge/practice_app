@@ -138,27 +138,39 @@ class PracticeCodeService{
     //We dont know the structure, and we want to count how far we go down
     public function TreeTraversal($nodes, int $depth = 0, array &$result = []): array
     {
+        // Loop through each node in the current level of the tree
         foreach ($nodes as $node) {
  
+            // This protects against malformed or mixed data
             if (is_array($node)) {
 
+                // If the node is marked as completed, collect it 
                 if (isset($node['completed']) && $node['completed']) {
                     $result[] = [
-                        'id' => $node['id'] ?? null,
-                        'name' => $node['name'] ?? null,
-                        'depth' => $depth,
-                        'completed' => $node['completed']
+                        'id' => $node['id'],
+                        'name' => $node['name'],  
+                        'depth' => $depth,                  // Track how deep this node is
+                        'completed' => $node['completed'] 
                     ];
-                } 
+                }
 
+                // Traverse ALL child arrays within the current node
+                // This makes the function generic
                 foreach ($node as $value) {
+
+                    // If a value is itself an array, it could be nested nodes
                     if (is_array($value)) {
+
+                        // Recursive call:
+                        // - move deeper into the structure
+                        // - increment depth
+                        // - pass result by reference to accumulate results
                         $this->TreeTraversal($value, $depth + 1, $result);
                     }
                 }
             }
         }
-
+        // Return the accumulated results after full traversal
         return $result;
     }
 
@@ -166,7 +178,7 @@ class PracticeCodeService{
         $totals = [];
 
         foreach ($orders as $order) {
-            //set customer
+            //grab the customer customer
             $customer = $order['customer'];
 
             //no customers, set the total to zero
@@ -182,5 +194,55 @@ class PracticeCodeService{
             }
         } 
         return $totals;
+    }
+
+    public function APIChallenge($apiResponse) : array {
+        $return = [];
+
+        foreach ($apiResponse['data'] as $user) {
+
+            $name = $user['first_name'] . " " . $user['last_name'];
+            $orders = $user['orders'] ?? 0;
+
+            $return[$user['user_id']] = $name . " (" . $orders . " orders)";
+        }
+
+        return $return;
+    }
+
+    public function APIChallenge2($apiResponse): array
+    {
+        // Final result array that will be returned to controller/Twig
+        $return = [];
+
+        // Loop through each user in the API response
+        // We assume structure: $apiResponse['users'] = list of users
+        foreach ($apiResponse['users'] as $users) {
+
+            // Reset total for EACH user 
+            $total = 0; 
+
+            // Ensure 'orders' exists and is actually an array before looping
+            if (!empty($users['orders']) && is_array($users['orders'])) {
+
+                // Loop through each order for this user
+                foreach ($users['orders'] as $order) {
+
+                    // Safely add order amount to total
+                    // Using ?? 0 prevents errors if 'amount' is missing
+                    $total += $order['amount'] ?? 0;
+                }
+            }
+
+            // Build final structure per user
+            // Keyed by user ID so we can easily access in Twig
+            $return[$users['id']] = [
+                // Combine first + last name into a display-friendly string
+                "full_name" => trim($users['first_name'] . " " . $users['last_name']), 
+                "total_spent" =>  $total
+            ];
+        }
+ 
+        return $return;
     }
 }
