@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use phpDocumentor\Reflection\Types\Integer;
+use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Validator\Constraints\Length;
 
 class PracticeCodeService{
@@ -77,7 +78,7 @@ class PracticeCodeService{
         if(count($nums) > 0 ){
             array_push($unique, $nums[0]);
 
-            for($i = 1; $i < count($nums); $i++){
+            for($i = 1; $i < count($nums); $i++){                
                 if($nums[$i] != $nums[$i -1]){
                     $nums[$index++] = $nums[$i-1];
                     array_push($unique, $nums[$i]);
@@ -85,5 +86,101 @@ class PracticeCodeService{
             }
         }
         return count($unique);
+    }
+
+    public function SortGrades(array $grades) : array {
+        //80, 90, 30, 4, 50, 70, 20
+        //into 80, 90, 50, 70 30, 4, 20
+        $left  = 0;
+        $right = count($grades) - 1;
+
+        while($left < $right){            
+            while($left < count($grades) && $grades[$left] >= 50)
+                $left++;
+            while($right >=0 && $grades[$right] < 50)
+                $right--;
+
+            if($left < $right){
+                $temp = $grades[$left];
+                $grades[$left] = $grades[$right];
+                $grades[$right] = $temp;
+
+                $left++;
+                $right--;
+            }
+        }
+        return $grades;
+    }
+
+    public function PalindromeNumber($number) : bool{
+        return $number == strrev($number) ? true : false;
+    }
+
+    //Generic tree -> We dont know the structure
+    function collectValues($data, array &$result = [])
+    {
+        if (!is_array($data)) {
+            return $result;
+        }
+
+        foreach ($data as $value) {
+
+            if (is_array($value)) {
+                $this->collectValues($value, $result);
+            } else {
+                $result[] = $value;
+            }
+        }
+
+        return $result;
+    }
+
+    //We dont know the structure, and we want to count how far we go down
+    public function TreeTraversal($nodes, int $depth = 0, array &$result = []): array
+    {
+        foreach ($nodes as $node) {
+ 
+            if (is_array($node)) {
+
+                if (isset($node['completed']) && $node['completed']) {
+                    $result[] = [
+                        'id' => $node['id'] ?? null,
+                        'name' => $node['name'] ?? null,
+                        'depth' => $depth,
+                        'completed' => $node['completed']
+                    ];
+                } 
+
+                foreach ($node as $value) {
+                    if (is_array($value)) {
+                        $this->TreeTraversal($value, $depth + 1, $result);
+                    }
+                }
+            }
+        }
+
+        return $result;
+    }
+
+    public function TotalByCustomerArray($orders) : array{
+        $totals = [];
+
+        foreach ($orders as $order) {
+            //set customer
+            $customer = $order['customer'];
+
+            //no customers, set the total to zero
+            if (!isset($totals[$customer])) {
+                $totals[$customer] = 0;
+            }
+
+            //if they have ordered, and there is an array, grab the totals
+            if (!empty($order['items']) && is_array($order['items'])) {
+                foreach ($order['items'] as $item) {
+                    $totals[$customer] += $item['price'] * $item['quantity'];
+                }
+            }
+        } 
+        return $totals;
     }
 }

@@ -22,5 +22,39 @@
 
     <h4 style="margin-bottom: 5px;">Remove Duplicates</h4>
     {{ removeDuplicates }} 
+
+    <h4 style="margin-bottom: 5px;">Sorted Grades</h4>
+    {{ sortGrades }}
+
+    <h4 style="margin-bottom: 5px;">Palindrome Number</h4>
+    {{ palindromeNum == 1 ? "true" : "false" }}
+
+    <h4 style="margin-bottom: 5px;">Array</h4>
+    {# {{treeArray}} #}
+
+    <ul>
+        {% for tree in treeArray %}
+        <li>
+            {{tree.name}} - {{tree.completed == 1 ? 'true' : 'false'}} - {{tree.depth}}
+
+            {% if task['subtasks'] is defined %}
+            <ul>
+                {% for subtask in tree.subtasks %}
+                <li>{{ subtask.name}} - {{subtask.completed == 1 ? 'true' : 'false'}} - {{subtask.depth}}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+
+    <h4 style="margin-bottom: 5px;">Orders</h4>    
+    <ul>
+        {% for name,order in orders %}
+        <li>
+            {{ name }} - {{ order }}
+        </li>
+        {% endfor %}
+    </ul>
 </div>
 {% endblock %}
