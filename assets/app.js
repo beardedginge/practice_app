@@ -12,17 +12,15 @@ import './styles/app.css';
 import './bootstrap';
 
 // Load tasks
-function loadTasks() {
-    console.log("load");
+function loadTasks() { 
     fetch('/getTasks')
         .then(res => res.json())
         .then(data => {
             const list = document.getElementById('taskList');
-            list.innerHTML = '';
-            console.log(data);
+            list.innerHTML = ''; 
             data.forEach(task => {
-                const li = document.createElement('li');
-                li.textContent = task.name;
+                const li = document.createElement('li'); 
+                li.textContent = task.TaskName + ': ' +task.Description + ' - ' + (task.DateCompleted ? "Done" : "Pending");
                 list.appendChild(li);
             });
         });
@@ -31,8 +29,7 @@ function loadTasks() {
 //add task functionality
 function addTask() {
     const input = document.getElementById('taskInput');
-    console.log('add');
-    console.log(input);
+    console.log('add'); 
     fetch('/tasks', {
         method: 'POST',
         headers: {

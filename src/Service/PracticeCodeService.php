@@ -141,7 +141,6 @@ class PracticeCodeService{
         // Loop through each node in the current level of the tree
         foreach ($nodes as $node) {
  
-            // This protects against malformed or mixed data
             if (is_array($node)) {
 
                 // If the node is marked as completed, collect it 
@@ -210,7 +209,7 @@ class PracticeCodeService{
         $return = [];
 
         // Loop through each user in the API response
-        // We assume structure: $apiResponse['users'] = list of users
+        // Assume structure: $apiResponse['users'] = list of users
         foreach ($apiResponse['users'] as $users) {
 
             // Reset total for EACH user 
@@ -238,5 +237,25 @@ class PracticeCodeService{
         }
  
         return $return;
+    }
+
+    //Function with array_merge
+    function traverse($nodes): array {
+        $result = [];
+
+        foreach ($nodes as $node) {
+            if ($node['completed']) {
+                $result[] = $node;
+            }
+
+            if (!empty($node['children'])) {
+                $result = array_merge(
+                    $result,
+                    $this->traverse($node['children'])
+                );
+            }
+        }
+
+        return $result;
     }
 }
